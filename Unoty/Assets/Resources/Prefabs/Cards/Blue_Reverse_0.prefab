@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4463086158623740230}
   - component: {fileID: 7126055878728803415}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Blue_Reverse_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -2219656360009797627, guid: d3dd9b28e7488404d8da1ab122b43825, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
