@@ -5,21 +5,20 @@ using static UnityEngine.Rendering.GPUSort;
 public class ManoManager : MonoBehaviour
 {
     public List<GameObject> mano = new List<GameObject>();
-    Vector3 PosMano = new Vector3(-3.7f, -3.33f, 3);
-    Vector3 Separacion = new Vector3(1.25f, 0, 0);
-
-
-    private Vector3[] posicionesMano = new Vector3[]
-  {
-      
-  };
-
+    Vector3[] posicionesMano = new Vector3[]
+    {
+        new Vector3(-3.7f, -3.33f, 3),
+        new Vector3(-2.45f, -3.33f, 3),
+        new Vector3(-1.2f, -3.33f, 3),
+        new Vector3(0.05f, -3.33f, 3),
+        new Vector3(1.3f, -3.33f, 3),
+        new Vector3(2.55f, -3.33f, 3),
+        new Vector3(3.8f, -3.33f, 3)
+    };
+    int indexCarta = 0;
 
     public List<GameObject> ListaPrefabsCartas = new List<GameObject>();
 
-
-
-    // Nombres de los prefabs de las cartas
     private string[] NombresCartas = new string[]
     {
         "Blue_0_0", "Blue_1_0", "Blue_2_0", "Blue_3_0", "Blue_4_0", "Blue_5_0", "Blue_6_0", "Blue_7_0", "Blue_8_0", "Blue_9_0",
@@ -33,25 +32,22 @@ public class ManoManager : MonoBehaviour
         "Plus4", "ChangeColor"
     };
 
-    
     private void LoadPrefabs()
     {
-        ListaPrefabsCartas.Clear(); 
+        ListaPrefabsCartas.Clear();
 
         foreach (string cardName in NombresCartas)
         {
             GameObject cardPrefab = Resources.Load<GameObject>($"Prefabs/Cards/{cardName}");
-            SpriteRenderer spriteRenderer = cardPrefab.GetComponent<SpriteRenderer>();
-            spriteRenderer.sortingOrder = 2;
-
-
             if (cardPrefab != null)
             {
+                SpriteRenderer spriteRenderer = cardPrefab.GetComponent<SpriteRenderer>();
+                spriteRenderer.sortingOrder = 2;
                 ListaPrefabsCartas.Add(cardPrefab);
             }
             else
             {
-                Debug.LogError($"No se encontró el prefab '{cardName}'");
+                Debug.LogError($"No se encontrÃ³ el prefab '{cardName}'");
             }
         }
 
@@ -60,43 +56,90 @@ public class ManoManager : MonoBehaviour
 
     private void SpawnCard()
     {
-        if (ListaPrefabsCartas.Count > 0)
+        if (ListaPrefabsCartas.Count > 0 && mano.Count < posicionesMano.Length)
         {
             GameObject cartaAleatoria = ListaPrefabsCartas[Random.Range(0, ListaPrefabsCartas.Count)];
-            Instantiate(cartaAleatoria, PosMano, Quaternion.identity);
-            mano.Add(cartaAleatoria);
-            PosMano = PosMano + Separacion;
+            GameObject cartaInstanciada = Instantiate(cartaAleatoria, posicionesMano[mano.Count], Quaternion.identity);
+            mano.Add(cartaInstanciada);
         }
         else
         {
-            Debug.LogWarning("No hay cartas cargadas en la lista.");
+            Debug.LogWarning("No hay cartas cargadas en la lista o la mano estÃ¡ llena.");
         }
     }
 
-    // Manejo de teclas
     public void OnKeyPress()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && mano.Count <= 6)
+        if (Input.GetKeyDown(KeyCode.Space) && mano.Count < posicionesMano.Length)
         {
-            Debug.Log("Carta añadida.");
+            Debug.Log("Carta aÃ±adida.");
             SpawnCard();
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("La mano está llena.");
-        } else if (Input.GetKeyDown(KeyCode.R)) { 
-            mano.
+            Debug.Log("La mano estÃ¡ llena.");
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Carta eliminada.");
+            borrarCarta();
+        }
+    }
+
+    public void initMano()
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            SpawnCard();
+        }
+    }
+
+    public void selectCarta()
+    {
+        if (mano.Count == 0) return;
+
+        mano[indexCarta].transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            mano[indexCarta].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            indexCarta = (indexCarta + 1) % mano.Count;
+            mano[indexCarta].transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            mano[indexCarta].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            indexCarta = (indexCarta - 1 + mano.Count) % mano.Count;
+            mano[indexCarta].transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+        }
+    }
+
+    public void borrarCarta()
+    {
+        Destroy(mano[indexCarta]);
+        mano.RemoveAt(indexCarta);
+        indexCarta = (indexCarta - 1 + mano.Count) % mano.Count;
+        ReorganizeCards();
+    }
+
+    private void ReorganizeCards()
+    {
+        for (int i = 0; i < mano.Count; i++)
+        {
+            mano[i].transform.position = posicionesMano[i];
         }
     }
 
     void Start()
     {
         mano.Clear();
-        LoadPrefabs();  
+        LoadPrefabs();
+        initMano();
     }
 
     void Update()
     {
+        selectCarta();
         OnKeyPress();
     }
 }
