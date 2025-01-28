@@ -16,6 +16,7 @@ public class ManoManager : MonoBehaviour
         new Vector3(3.8f, -3.33f, 3)
     };
     int indexCarta = 0;
+    int layerCarta = 1;
 
     public List<GameObject> ListaPrefabsCartas = new List<GameObject>();
 
@@ -54,7 +55,7 @@ public class ManoManager : MonoBehaviour
         Debug.Log("Prefabs cargados correctamente.");
     }
 
-    private void SpawnCard()
+    public void SpawnCard()
     {
         if (ListaPrefabsCartas.Count > 0 && mano.Count < posicionesMano.Length)
         {
@@ -82,7 +83,7 @@ public class ManoManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Carta eliminada.");
-            borrarCarta();
+            tirarCarta();
         }
     }
 
@@ -114,12 +115,38 @@ public class ManoManager : MonoBehaviour
         }
     }
 
-    public void borrarCarta()
+    public void tirarCarta()
     {
+        int Zposicionjuego = layerCarta;
+
+        Vector3 posicionJuego = new Vector3(
+            Random.Range(0f, 1.5f),
+            Random.Range(0f, 1.5f),
+            1
+        );
+        Vector3 rotacionCarta = new Vector3(
+                  0,
+                  0,
+                  Random.Range(0f, 100f)
+              );
+
+
+
+        //Debug.Log("Antes: " + mano[indexCarta].transform.position);
+
+        GameObject cartaTirada = Instantiate(mano[indexCarta], posicionJuego, Quaternion.Euler(0f, 0f, Random.Range(-10f, 20f)));
+        SpriteRenderer spriteRenderer = cartaTirada.GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = Zposicionjuego;
+
+        //mano[indexCarta].transform.position = posicionJuego;
+        //mano[indexCarta].transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-10f, 20f));
+        //Debug.Log("Despues: " + mano[indexCarta].transform.position);
+
         Destroy(mano[indexCarta]);
         mano.RemoveAt(indexCarta);
         indexCarta = (indexCarta - 1 + mano.Count) % mano.Count;
         ReorganizeCards();
+        layerCarta++;
     }
 
     private void ReorganizeCards()
