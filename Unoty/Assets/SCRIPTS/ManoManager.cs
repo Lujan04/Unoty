@@ -1,38 +1,50 @@
 using UnityEngine;
 using System.Collections.Generic;
-using static UnityEngine.Rendering.GPUSort;
 
 public class ManoManager : MonoBehaviour
 {
+    // Listas de cartas
     public List<GameObject> mano = new List<GameObject>();
-    Vector3[] posicionesMano = new Vector3[]
-    {
-        new Vector3(-3.7f, -3.33f, 3),
-        new Vector3(-2.45f, -3.33f, 3),
-        new Vector3(-1.2f, -3.33f, 3),
-        new Vector3(0.05f, -3.33f, 3),
-        new Vector3(1.3f, -3.33f, 3),
-        new Vector3(2.55f, -3.33f, 3),
-        new Vector3(3.8f, -3.33f, 3)
-    };
-    int indexCarta = 0;
-    int layerCarta = 1;
-
+    public List<GameObject> manoEnemiga = new List<GameObject>();
+    public List<GameObject> Game = new List<GameObject>();
     public List<GameObject> ListaPrefabsCartas = new List<GameObject>();
 
-    private string[] NombresCartas = new string[]
+    // Posiciones de las manos
+    private Vector3[] posicionesMano = new Vector3[]
     {
-        "Blue_0_0", "Blue_1_0", "Blue_2_0", "Blue_3_0", "Blue_4_0", "Blue_5_0", "Blue_6_0", "Blue_7_0", "Blue_8_0", "Blue_9_0",
-        "Blue_Draw_0", "Blue_Reverse_0", "Blue_Skip_0",
-        "Green_0_0", "Green_1_0", "Green_2_0", "Green_3_0", "Green_4_0", "Green_5_0", "Green_6_0", "Green_7_0", "Green_8_0", "Green_9_0",
-        "Green_Draw_0", "Green_Reverse_0", "Green_Skip_0",
-        "Red_0_0", "Red_1_0", "Red_2_0", "Red_3_0", "Red_4_0", "Red_5_0", "Red_6_0", "Red_7_0", "Red_8_0", "Red_9_0",
-        "Red_Draw_0", "Red_Reverse_0", "Red_Skip_0",
-        "Yellow_0_0", "Yellow_1_0", "Yellow_2_0", "Yellow_3_0", "Yellow_4_0", "Yellow_5_0", "Yellow_6_0", "Yellow_7_0", "Yellow_8_0", "Yellow_9_0",
-        "Yellow_Draw_0", "Yellow_Reverse_0", "Yellow_Skip_0",
-        "Plus4", "ChangeColor"
+        new Vector3(-3.7f, -3.33f, 3), new Vector3(-2.45f, -3.33f, 3),
+        new Vector3(-1.2f, -3.33f, 3), new Vector3(0.05f, -3.33f, 3),
+        new Vector3(1.3f, -3.33f, 3), new Vector3(2.55f, -3.33f, 3),
+        new Vector3(3.8f, -3.33f, 3)
     };
 
+    private Vector3[] posicionesManoEnemiga = new Vector3[]
+    {
+        new Vector3(-3.7f, 3.2f, 3), new Vector3(-2.45f, 3.2f, 3),
+        new Vector3(-1.2f, 3.2f, 3), new Vector3(0.05f, 3.2f, 3),
+        new Vector3(1.3f, 3.2f, 3), new Vector3(2.55f, 3.2f, 3),
+        new Vector3(3.8f, 3.2f, 3)
+    };
+
+    // Variables internas
+    private int indexCarta = 0;
+    private int layerCarta = 1;
+
+    // Nombres de las cartas
+    private string[] NombresCartas = new string[]
+    {
+        "Blue_0", "Blue_1", "Blue_2", "Blue_3", "Blue_4", "Blue_5", "Blue_6", "Blue_7", "Blue_8", "Blue_9",
+        "Blue_Draw", "Blue_Reverse", "Blue_Skip",
+        "Green_0", "Green_1", "Green_2", "Green_3", "Green_4", "Green_5", "Green_6", "Green_7", "Green_8", "Green_9",
+        "Green_Draw", "Green_Reverse", "Green_Skip",
+        "Red_0", "Red_1", "Red_2", "Red_3", "Red_4", "Red_5", "Red_6", "Red_7", "Red_8", "Red_9",
+        "Red_Draw", "Red_Reverse", "Red_Skip",
+        "Yellow_0", "Yellow_1", "Yellow_2", "Yellow_3", "Yellow_4", "Yellow_5", "Yellow_6", "Yellow_7", "Yellow_8", "Yellow_9",
+        "Yellow_Draw", "Yellow_Reverse", "Yellow_Skip",
+        "Plus4", "ChangeColor", "Back"
+    };
+
+    // Métodos principales
     private void LoadPrefabs()
     {
         ListaPrefabsCartas.Clear();
@@ -42,8 +54,7 @@ public class ManoManager : MonoBehaviour
             GameObject cardPrefab = Resources.Load<GameObject>($"Prefabs/Cards/{cardName}");
             if (cardPrefab != null)
             {
-                SpriteRenderer spriteRenderer = cardPrefab.GetComponent<SpriteRenderer>();
-                spriteRenderer.sortingOrder = 2;
+                cardPrefab.GetComponent<SpriteRenderer>().sortingOrder = 2;
                 ListaPrefabsCartas.Add(cardPrefab);
             }
             else
@@ -59,7 +70,7 @@ public class ManoManager : MonoBehaviour
     {
         if (ListaPrefabsCartas.Count > 0 && mano.Count < posicionesMano.Length)
         {
-            GameObject cartaAleatoria = ListaPrefabsCartas[Random.Range(0, ListaPrefabsCartas.Count)];
+            GameObject cartaAleatoria = ListaPrefabsCartas[Random.Range(0, ListaPrefabsCartas.Count - 1)];
             GameObject cartaInstanciada = Instantiate(cartaAleatoria, posicionesMano[mano.Count], Quaternion.identity);
             mano.Add(cartaInstanciada);
         }
@@ -69,84 +80,100 @@ public class ManoManager : MonoBehaviour
         }
     }
 
+    public void SpawnCardEnemiga()
+    {
+        if (ListaPrefabsCartas.Count > 0 && manoEnemiga.Count < posicionesManoEnemiga.Length)
+        {
+
+            GameObject cartaBack = ListaPrefabsCartas[ListaPrefabsCartas.Count - 1];
+            GameObject cartaInstanciadaBack = Instantiate(cartaBack, posicionesManoEnemiga[manoEnemiga.Count], Quaternion.identity);
+
+
+            //GameObject cartaAleatoria = ListaPrefabsCartas[Random.Range(0, ListaPrefabsCartas.Count - 1)];
+            //GameObject cartaInstanciada = Instantiate(cartaAleatoria, posicionesManoEnemiga[manoEnemiga.Count], Quaternion.identity);
+            manoEnemiga.Add(cartaInstanciadaBack);
+        }
+        else
+        {
+            Debug.LogWarning("No hay cartas cargadas en la lista o la mano enemiga está llena.");
+        }
+    }
+
     public void OnKeyPress()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && mano.Count < posicionesMano.Length)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Carta añadida.");
-            SpawnCard();
-        }
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("La mano está llena.");
+            if (mano.Count < posicionesMano.Length)
+            {
+                Debug.Log("Carta añadida.");
+                SpawnCard();
+            }
+            else
+            {
+                Debug.Log("La mano está llena.");
+            }
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Carta eliminada.");
-            tirarCarta();
+            TirarCarta();
         }
     }
 
-    public void initMano()
+    public void InitManos()
     {
         for (int i = 0; i < 7; i++)
         {
             SpawnCard();
+            SpawnCardEnemiga();
         }
     }
 
-    public void selectCarta()
+    public void SelectCarta()
     {
         if (mano.Count == 0) return;
 
         mano[indexCarta].transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
-            mano[indexCarta].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-            indexCarta = (indexCarta + 1) % mano.Count;
-            mano[indexCarta].transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+            CambiarSeleccionCarta(1);
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
-            mano[indexCarta].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-            indexCarta = (indexCarta - 1 + mano.Count) % mano.Count;
-            mano[indexCarta].transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+            CambiarSeleccionCarta(-1);
         }
     }
 
-    public void tirarCarta()
+    private void CambiarSeleccionCarta(int direccion)
     {
-        int Zposicionjuego = layerCarta;
+        mano[indexCarta].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        indexCarta = (indexCarta + direccion + mano.Count) % mano.Count;
+        mano[indexCarta].transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
+    }
 
+    public void TirarCarta()
+    {
         Vector3 posicionJuego = new Vector3(
-            Random.Range(0f, 1.5f),
-            Random.Range(0f, 1.5f),
+            Random.Range(0f, 1f),
+            Random.Range(0f, 1f),
             1
         );
-        Vector3 rotacionCarta = new Vector3(
-                  0,
-                  0,
-                  Random.Range(0f, 100f)
-              );
-
-
-
-        //Debug.Log("Antes: " + mano[indexCarta].transform.position);
 
         GameObject cartaTirada = Instantiate(mano[indexCarta], posicionJuego, Quaternion.Euler(0f, 0f, Random.Range(-10f, 20f)));
-        SpriteRenderer spriteRenderer = cartaTirada.GetComponent<SpriteRenderer>();
-        spriteRenderer.sortingOrder = Zposicionjuego;
+        cartaTirada.GetComponent<SpriteRenderer>().sortingOrder = layerCarta++;
+        Game.Add(cartaTirada);
 
-        //mano[indexCarta].transform.position = posicionJuego;
-        //mano[indexCarta].transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-10f, 20f));
-        //Debug.Log("Despues: " + mano[indexCarta].transform.position);
+        if (Game.Count > 15)
+        {
+            Destroy(Game[0]);
+            Game.RemoveAt(0);
+        }
 
         Destroy(mano[indexCarta]);
         mano.RemoveAt(indexCarta);
         indexCarta = (indexCarta - 1 + mano.Count) % mano.Count;
         ReorganizeCards();
-        layerCarta++;
     }
 
     private void ReorganizeCards()
@@ -157,16 +184,22 @@ public class ManoManager : MonoBehaviour
         }
     }
 
+    // Ciclos de Unity
     void Start()
     {
         mano.Clear();
+        manoEnemiga.Clear();
         LoadPrefabs();
-        initMano();
+        InitManos();
     }
 
     void Update()
     {
-        selectCarta();
+        SelectCarta();
         OnKeyPress();
     }
 }
+
+
+//TODO IMPLEMENTAR LOGICA COINCIDENCIA COLOR/NUMERO CON CLASE CARD Y DECK
+//MENSAJE DE ERROR SI NO HAY COINCIDENCIA
