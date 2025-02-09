@@ -115,8 +115,7 @@ public class ManoManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Carta eliminada.");
-            TirarCarta();
+            ComprobarCarta();
         }
     }
 
@@ -184,17 +183,70 @@ public class ManoManager : MonoBehaviour
         }
     }
 
-    // Ciclos de Unity
+    private void ComprobarCarta()
+    {
+        if (mano.Count == 0) return;
+
+        GameObject cartaSeleccionada = mano[indexCarta];
+        string nombreCartaSeleccionada = cartaSeleccionada.name.Replace("(Clone)", "").Trim();
+
+        
+        if (Game.Count == 0)
+        {
+            TirarCarta();
+            return;
+        }
+
+        GameObject ultimaCartaJugada = Game[Game.Count - 1];
+        string nombreUltimaCarta = ultimaCartaJugada.name.Replace("(Clone)", "").Trim();
+
+        // Extraer color y número/tipo de ambas cartas
+        string[] partesSeleccionada = nombreCartaSeleccionada.Split('_');
+        string[] partesUltima = nombreUltimaCarta.Split('_');
+
+        string colorSeleccionado = partesSeleccionada[0];
+        string tipoSeleccionado = partesSeleccionada.Length > 1 ? partesSeleccionada[1] : "";
+
+        string colorUltima = partesUltima[0];
+        string tipoUltima = partesUltima.Length > 1 ? partesUltima[1] : "";
+
+        if (nombreCartaSeleccionada == "Plus4" || nombreCartaSeleccionada == "ChangeColor" || nombreUltimaCarta == "Plus4" || nombreUltimaCarta == "ChangeColor" )
+        {
+            TirarCarta();
+            return;
+        }
+
+        // Comprobar si la carta se puede jugar por coincidencia de color o número/tipo
+        if (colorSeleccionado == colorUltima || tipoSeleccionado == tipoUltima)
+        {
+            TirarCarta();
+        }
+        else
+        {
+            Debug.Log("Carta no valida");
+        }
+    }
+
+
+    private void MostrarMensajeCartaIncorrecta()
+    {
+        // Aqui texto en pantalla que pondra algo del palo carta no valido o asi poener funte menu
+    }
+
+
+
     void Start()
     {
         mano.Clear();
         manoEnemiga.Clear();
+        Game.Clear();
         LoadPrefabs();
         InitManos();
     }
 
     void Update()
     {
+
         SelectCarta();
         OnKeyPress();
     }
