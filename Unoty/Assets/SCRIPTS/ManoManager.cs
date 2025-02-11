@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class ManoManager : MonoBehaviour
 {
@@ -190,7 +191,6 @@ public class ManoManager : MonoBehaviour
         GameObject cartaSeleccionada = mano[indexCarta];
         string nombreCartaSeleccionada = cartaSeleccionada.name.Replace("(Clone)", "").Trim();
 
-        
         if (Game.Count == 0)
         {
             TirarCarta();
@@ -210,7 +210,7 @@ public class ManoManager : MonoBehaviour
         string colorUltima = partesUltima[0];
         string tipoUltima = partesUltima.Length > 1 ? partesUltima[1] : "";
 
-        if (nombreCartaSeleccionada == "Plus4" || nombreCartaSeleccionada == "ChangeColor" || nombreUltimaCarta == "Plus4" || nombreUltimaCarta == "ChangeColor" )
+        if (nombreCartaSeleccionada == "Plus4" || nombreCartaSeleccionada == "ChangeColor" || nombreUltimaCarta == "Plus4" || nombreUltimaCarta == "ChangeColor")
         {
             TirarCarta();
             return;
@@ -223,16 +223,26 @@ public class ManoManager : MonoBehaviour
         }
         else
         {
-            // Aqui en lloc de este debug va la funcio del altre script ha de ser algo del rollo -->  UI_manager.Instance.warningTirarCarta(//Aqui van los parametres que nse quins son la vda)
-            Debug.Log("Carta no valida");
+            // Mostrar prefab de advertencia
+            GameObject advertenciaPrefab = Resources.Load<GameObject>("Assets/TextMesh Pro/Resources/advertencia_notirar.prefab");
+            if (advertenciaPrefab != null)
+            {
+                Instantiate(advertenciaPrefab, Vector3.zero, Quaternion.identity);
+            }
+            else
+            {
+                Debug.LogError("No se encontró el prefab de advertencia.");
+            }
+
+            string mensaje = "No se puede jugar esa carta.";
+            TMP_FontAsset fuente = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
+            int tamano = 24;
+            float duracion = 2.0f;
+            UI_Manager.Instance.warningTirarCarta(mensaje, fuente, tamano, duracion);
+            Debug.LogWarning(mensaje);
         }
     }
 
-
-    private void MostrarMensajeCartaIncorrecta()
-    {
-        // Aqui texto en pantalla que pondra algo del palo carta no valido o asi poener funte menu
-    }
 
 
 
