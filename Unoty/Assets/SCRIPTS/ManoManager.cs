@@ -223,6 +223,7 @@ public class ManoManager : MonoBehaviour
         }
         else
         {
+            // Aqui en lloc de este debug va la funcio del altre script ha de ser algo del rollo -->  UI_manager.Instance.warningTirarCarta(//Aqui van los parametres que nse quins son la vda)
             Debug.Log("Carta no valida");
         }
     }
@@ -251,7 +252,3 @@ public class ManoManager : MonoBehaviour
         OnKeyPress();
     }
 }
-
-
-//TODO IMPLEMENTAR LOGICA COINCIDENCIA COLOR/NUMERO CON CLASE CARD Y DECK
-//MENSAJE DE ERROR SI NO HAY COINCIDENCIA
