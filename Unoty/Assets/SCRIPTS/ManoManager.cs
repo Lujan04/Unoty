@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+public enum GameState { TurnoJugador, TurnoIA, Victoria};
 
 public class ManoManager : MonoBehaviour
 {
@@ -13,23 +14,38 @@ public class ManoManager : MonoBehaviour
     // Posiciones de las manos
     private Vector3[] posicionesMano = new Vector3[]
     {
-        new Vector3(-3.7f, -3.33f, 3), new Vector3(-2.45f, -3.33f, 3),
-        new Vector3(-1.2f, -3.33f, 3), new Vector3(0.05f, -3.33f, 3),
-        new Vector3(1.3f, -3.33f, 3), new Vector3(2.55f, -3.33f, 3),
-        new Vector3(3.8f, -3.33f, 3)
+    new Vector3(-6.34f, -3.33f, 3),
+    new Vector3(-4.94f, -3.33f, 3),
+    new Vector3(-3.54f, -3.33f, 3),
+    new Vector3(-2.14f, -3.33f, 3),
+    new Vector3(-0.74f, -3.33f, 3),
+    new Vector3(0.66f, -3.33f, 3),
+    new Vector3(2.06f, -3.33f, 3),
+    new Vector3(3.46f, -3.33f, 3),
+    new Vector3(4.86f, -3.33f, 3),
+    new Vector3(6.26f, -3.33f, 3)
     };
 
     private Vector3[] posicionesManoEnemiga = new Vector3[]
     {
-        new Vector3(-3.7f, 3.2f, 3), new Vector3(-2.45f, 3.2f, 3),
-        new Vector3(-1.2f, 3.2f, 3), new Vector3(0.05f, 3.2f, 3),
-        new Vector3(1.3f, 3.2f, 3), new Vector3(2.55f, 3.2f, 3),
-        new Vector3(3.8f, 3.2f, 3)
+    new Vector3(-6.34f, 3.2f, 3),
+    new Vector3(-4.94f, 3.2f, 3),
+    new Vector3(-3.54f, 3.2f, 3),
+    new Vector3(-2.14f, 3.2f, 3),
+    new Vector3(-0.74f, 3.2f, 3),
+    new Vector3(0.66f, 3.2f, 3),
+    new Vector3(2.06f, 3.2f, 3),
+    new Vector3(3.46f, 3.2f, 3),
+    new Vector3(4.86f, 3.2f, 3),
+    new Vector3(6.26f, 3.2f, 3)
     };
 
     // Variables internas
     private int indexCarta = 0;
     private int layerCarta = 1;
+    private bool cartaRobada = false;
+
+     public GameState currentGameState = GameState.TurnoJugador;
 
     // Nombres de las cartas
     private string[] NombresCartas = new string[]
@@ -223,28 +239,9 @@ public class ManoManager : MonoBehaviour
         }
         else
         {
-            // Mostrar prefab de advertencia
-            GameObject advertenciaPrefab = Resources.Load<GameObject>("Assets/TextMesh Pro/Resources/advertencia_notirar.prefab");
-            if (advertenciaPrefab != null)
-            {
-                Instantiate(advertenciaPrefab, Vector3.zero, Quaternion.identity);
-            }
-            else
-            {
-                Debug.LogError("No se encontró el prefab de advertencia.");
-            }
-
-            string mensaje = "No se puede jugar esa carta.";
-            TMP_FontAsset fuente = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
-            int tamano = 24;
-            float duracion = 2.0f;
-            UI_Manager.Instance.warningTirarCarta(mensaje, fuente, tamano, duracion);
-            Debug.LogWarning(mensaje);
+            UI_Manager.Instance.warningTirarCarta();
         }
     }
-
-
-
 
     void Start()
     {

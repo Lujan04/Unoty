@@ -1,57 +1,29 @@
-using TMPro;
 using UnityEngine;
 
 public class UI_Manager : MonoBehaviour
 {
+    public static UI_Manager Instance { get; private set; }
 
-    public static UI_Manager Instance {get; private set;}
+    [SerializeField] private GameObject textoPrefabWarningCarta;
+    [SerializeField] private GameObject textoPrefabWarningTurno;
 
-    [SerializeField] private GameObject textoPrefab;
     [SerializeField] private Canvas canvas;
 
-    void Awake() { Instance = this;}
-
-
-
-
-
-
-    //Aqui  esta funcio que es la unica que has de cridar del scrit es un script que funcione per si sol
-    public void warningTirarCarta(string mensaje, TMP_FontAsset fuente, int tamano, float duracion)
+    void Awake() { Instance = this; }
+    public void warningTirarCarta(float duracion = 1.0f)
     {
-        GameObject texto = Instantiate(textoPrefab, canvas.transform);
 
-
-        
-
-        TMP_Text textComponent = texto.GetComponent<TMP_Text>();
-        textComponent.text = mensaje;
-        textComponent.font = fuente; 
-        textComponent.fontSize = tamano; 
-        textComponent.alignment = TextAlignmentOptions.Center;
-        textComponent.color = Color.red; 
-
-        
+        GameObject texto = Instantiate(textoPrefabWarningCarta, canvas.transform);
         RectTransform rt = texto.GetComponent<RectTransform>();
-        rt.anchoredPosition = Vector2.zero;
-
+        rt.anchoredPosition = new Vector2(-110, -90);
         Destroy(texto, duracion);
     }
-
-
-    void Start()
+    public void warningTurnoIA(float duracion = 1.0f)
     {
-        
-    }
 
-    void Update()
-    {
-        
+        GameObject texto = Instantiate(textoPrefabWarningTurno, canvas.transform);
+        RectTransform rt = texto.GetComponent<RectTransform>();
+        rt.anchoredPosition = new Vector2(-110, -90);
+        Destroy(texto, duracion);
     }
 }
-
-
-
-
-
-
