@@ -45,7 +45,7 @@ public class ManoManager : MonoBehaviour
     private int layerCarta = 1;
     private bool cartaRobada = false;
 
-     public GameState currentGameState = GameState.TurnoJugador;
+    public GameState currentGameState = GameState.TurnoJugador;
 
     // Nombres de las cartas
     private string[] NombresCartas = new string[]
@@ -122,12 +122,12 @@ public class ManoManager : MonoBehaviour
         {
             if (mano.Count < posicionesMano.Length)
             {
-                Debug.Log("Carta añadida.");
+                
                 SpawnCard();
             }
             else
             {
-                Debug.Log("La mano está llena.");
+                StartCoroutine(UI_Manager.Instance.warningLimiteCartas());
             }
         }
         else if (Input.GetKeyDown(KeyCode.E))
@@ -239,9 +239,15 @@ public class ManoManager : MonoBehaviour
         }
         else
         {
-            UI_Manager.Instance.warningTirarCarta();
+            //UI_Manager.Instance.warningTirarCarta();
+            StartCoroutine(UI_Manager.Instance.warningTirarCarta(1.0f));  // You can adjust the duration here
+
         }
     }
+
+
+     
+    
 
     void Start()
     {

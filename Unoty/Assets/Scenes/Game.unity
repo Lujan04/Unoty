@@ -146,7 +146,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.68999994, y: 6.71, z: 0}
-  m_LocalScale: {x: 3.7116864, y: 3.6521487, z: 1}
+  m_LocalScale: {x: 6, y: 3.6521487, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1822910488}
@@ -320,7 +320,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.68999994, y: 0.19000006, z: 0}
-  m_LocalScale: {x: 3.7116864, y: 3.6521487, z: 1}
+  m_LocalScale: {x: 6, y: 3.6521487, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1822910488}
@@ -409,7 +409,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5af45379eaa9f846b87f0e0fbe32afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textoPrefab: {fileID: 6915904269378692051, guid: 6c1e5a57cd9661a4586b8862980995a6, type: 3}
+  textoPrefabWarningCarta: {fileID: 6915904269378692051, guid: 6c1e5a57cd9661a4586b8862980995a6, type: 3}
+  textoPrefabWarningTurno: {fileID: 4905400972373198996, guid: e298a7e204a539f40b7d460b2dd3fc35, type: 3}
+  textoPrefabLimiteCartas: {fileID: 8991582034869736620, guid: 174d339f10dbd21439f661bd3f594034, type: 3}
   canvas: {fileID: 1103251101}
 --- !u!4 &451541803
 Transform:
@@ -1613,6 +1615,7 @@ MonoBehaviour:
   manoEnemiga: []
   Game: []
   ListaPrefabsCartas: []
+  currentGameState: 0
 --- !u!4 &1177371199
 Transform:
   m_ObjectHideFlags: 0
