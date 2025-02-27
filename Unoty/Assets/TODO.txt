@@ -1,0 +1,50 @@
+TODO -->
+
+[x]--> Menu con botones Nueva Partida, Cargar partida y Salir
+[x]--> Fondo pantalla juego
+[x]--> Prefabs cartas
+[x]--> Pila cartas robar
+[x]--> Robar carta con "E" y pulsar encima pila
+[x]--> Navegar con flechas / "A" y "D"
+[x]--> Seleccionar carta y tirarla
+[x]--> Repartir 7 cartas al empezar
+[x]--> Implementar lógica de repartir cartas al jugador y la IA
+[x]--> Mostrar mensaje en Cargar partida indicando funcionalidad pendiente
+[x]--> Implementar el sistema para gestionar las cartas disponibles y las descartadas
+[?]--> Implementar la clase Card con atributos como color, número y tipo
+[?]--> Implementar la clase Deck para gestionar el mazo y las descartadas
+[x]--> Implementar las reglas para descartar cartas (coincidencia de color o número)
+[x]--> Implementar gestión de errores (mensaje si carta no válida)
+
+
+-------------------------------------------ENTREGA 4 (Dilluns 3)---------------------------------------------------------
+
+[X]--> Implementar IA básica que juega su turno
+
+[]--> Crear cartas especiales (roba 2, salta turno, cambio de sentido, cambio de color)
+
+[x]--> Implementar el cambio de turnos entre jugador y la IA solo tirar una carta por turno.
+
+[X]--> Reglas para ganar el juego (cuando se quede sin cartas)
+
+[x]--> Refactoring del codigo a archivos independitentes spagueti code duro.
+
+
+----------------------------------------ENTREGA 5 (Entrega ???¿¿¿) -------------------------------------------------------
+
+[]--> Mejorar la interfaz del menú principal
+
+[]--> Crear opciones en el menú del juego para Reiniciar partida y Salir al menú principal
+
+[]--> Mostrar el mazo de descarte, las manos de los jugadores y el turno en la interfaz
+
+[]--> Añadir efectos visuales y sonidos (selección, descarte, victorias)
+
+
+--------------------------------------------OPCIONAL-----------------------------------------------------------------------
+
+[]--> Mejorar la lógica de la IA (Opcional)
+[]--> Implementar la funcionalidad para guardar y cargar partidas (Opcional)
+[]--> Permitir guardar partida desde el menú dentro del juego (Opcional)
+[]--> Permitir cargar partida desde el menú principal (Opcional)
+ 

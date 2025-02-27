@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
@@ -6,7 +6,7 @@ public class UI_Manager : MonoBehaviour
 {
     public static UI_Manager Instance { get; private set; }
 
-    [SerializeField] private GameObject textoPrefabWarningCarta;
+    [SerializeField] public GameObject textoPrefabWarningCarta;
     [SerializeField] private GameObject textoPrefabWarningTurno;
     [SerializeField] private GameObject textoPrefabLimiteCartas;
     [SerializeField] private GameObject TextoVictoriaIA;
@@ -72,7 +72,7 @@ public class UI_Manager : MonoBehaviour
         TextoExistente = true;
         GameObject texto = Instantiate(TextoVictoriaIA, canvas.transform);
         RectTransform rt = texto.GetComponent<RectTransform>();
-        rt.anchoredPosition = new Vector2(-150, -90);
+        rt.anchoredPosition = new Vector2(-150, -10);
         Destroy(texto, duracion);
 
         // Wait for 3 seconds before setting TextoExistente to false
@@ -88,7 +88,7 @@ public class UI_Manager : MonoBehaviour
         TextoExistente = true;
         GameObject texto = Instantiate(TextoVictoriaJugador, canvas.transform);
         RectTransform rt = texto.GetComponent<RectTransform>();
-        rt.anchoredPosition = new Vector2(-180, -90);
+        rt.anchoredPosition = new Vector2(-180, -10);
         Destroy(texto, duracion);
 
         // Wait for 3 seconds before setting TextoExistente to false

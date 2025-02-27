@@ -412,6 +412,8 @@ MonoBehaviour:
   textoPrefabWarningCarta: {fileID: 6915904269378692051, guid: 6c1e5a57cd9661a4586b8862980995a6, type: 3}
   textoPrefabWarningTurno: {fileID: 4905400972373198996, guid: e298a7e204a539f40b7d460b2dd3fc35, type: 3}
   textoPrefabLimiteCartas: {fileID: 8991582034869736620, guid: 174d339f10dbd21439f661bd3f594034, type: 3}
+  TextoVictoriaIA: {fileID: 7098779537139691007, guid: 59a38d778e2858049bc1a74b5a5a3e50, type: 3}
+  TextoVictoriaJugador: {fileID: 9097638144914277600, guid: 905c815650b7e7c45b991da0dabbbd08, type: 3}
   canvas: {fileID: 1103251101}
 --- !u!4 &451541803
 Transform:
