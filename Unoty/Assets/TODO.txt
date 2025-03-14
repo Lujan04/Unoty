@@ -21,12 +21,6 @@ TODO -->
 
 ----------------------------------------ENTREGA 5 (Entrega 17 dilluns) -------------------------------------------------------
 
-[]--> Cartas especiales (roba 2(done), cambio de color(comodin, done), //// salta turno, cambio de sentido(salta turno enemigo), )
-
- 
-
-[]--> Añadir efectos visuales y sonidos (selección, descarte, victorias)
-
 [x]--> Gestionar que se te llene la mano perder.
 
 [x]--> turno en la interfaz ( montar interfaz mostrar turno dos prefabs gestionados por un boolean  y setActive)
@@ -39,12 +33,12 @@ TODO -->
 
 [x]--> Mostrar el mazo de descarte (llista cartes tirades)
 
-[] --> Las manos de los jugadores (pendent multiplayer)
-
+[x]--> Cartas especiales (roba 2(done), cambio de color(comodin, done), //// salta turno, cambio de sentido(salta turno enemigo), )
 
 
 --------------------------------------------OPCIONAL-----------------------------------------------------------------------
-
+[]--> Añadir efectos visuales y sonidos (selección, descarte, victorias)
+[] --> Las manos de los jugadores (pendent multiplayer)
 []--> Mejorar la lógica de la IA (Opcional)
 []--> Implementar la funcionalidad para guardar y cargar partidas (Opcional)
 []--> Permitir guardar partida desde el menú dentro del juego (Opcional)
