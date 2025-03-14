@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.Collections;
 using UnityEditor.Rendering;
+using UnityEditor;
 
 
 public class ManoManager : MonoBehaviour
@@ -16,9 +17,11 @@ public class ManoManager : MonoBehaviour
     }
 
 
-    public void CambiarTurno() {
-        
-        Constants.Instance.cartaTiradaTurno= !Constants.Instance.cartaTiradaTurno;
+    public void CambiarTurno()
+    {
+        Constants.Instance.cartaTiradaTurno = !Constants.Instance.cartaTiradaTurno;
+        GameManager.Instance.skipTurn = false; // Resetear estado de skip
+        Debug.Log("Turno cambiado. skipTurn = " + GameManager.Instance.skipTurn);
     }
 
     public void OnKeyPress()
@@ -29,6 +32,7 @@ public class ManoManager : MonoBehaviour
             if (Constants.Instance.mano.Count < Constants.Instance.posicionesMano.Length)
             {
                 CardSpawner.Instance.SpawnCard();
+
                 
             }
             else if (Constants.Instance.mano.Count >= Constants.Instance.posicionesMano.Length)
@@ -78,9 +82,6 @@ public class ManoManager : MonoBehaviour
     }
 
 
-
-
-
     public void ReorganizeCardsEnemiga()
     {
         for (int i = 0; i < Constants.Instance.manoEnemiga.Count; i++)
@@ -88,6 +89,48 @@ public class ManoManager : MonoBehaviour
             Constants.Instance.manoEnemiga[i].transform.position = Constants.Instance.posicionesManoEnemiga[i];
         }
     }
+
+
+    public IEnumerator pasarTurnoManoLlena()
+    {
+
+        if (GameManager.Instance.isWiner) yield break;
+
+        bool manoJugadorLlena = Constants.Instance.mano.Count == Constants.Instance.posicionesMano.Length;
+        bool manoEnemigaLlena = Constants.Instance.manoEnemiga.Count == Constants.Instance.posicionesManoEnemiga.Length;
+
+
+        if (manoJugadorLlena)
+        {
+            GameManager.Instance.winIA.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            GameManager.Instance.winIA.SetActive(false);
+
+            GameManager.Instance.isWiner = true;
+            yield return new WaitForSeconds(0.5f);
+
+            GameManager.Instance.Menu.SetActive(true);
+
+        }
+        else if (manoEnemigaLlena) { 
+        
+        
+
+            GameManager.Instance.winJugador.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            GameManager.Instance.winJugador.SetActive(false);
+
+            GameManager.Instance.isWiner = true;
+            yield return new WaitForSeconds(0.5f);
+
+            GameManager.Instance.Menu.SetActive(true);
+
+        
+        
+        }
+        
+    }
+
 
 
 
@@ -108,5 +151,10 @@ public class ManoManager : MonoBehaviour
         GameManager.Instance.checkWinner();
         SelectCarta();
         OnKeyPress();
+        
+        if (!GameManager.Instance.isWiner)
+        {
+            StartCoroutine(pasarTurnoManoLlena());
+        }
     }
 }

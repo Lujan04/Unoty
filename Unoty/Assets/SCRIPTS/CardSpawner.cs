@@ -16,6 +16,7 @@ public class CardSpawner : MonoBehaviour
 
         foreach (string cardName in Constants.Instance.NombresCartas)
         {
+            
             GameObject cardPrefab = Resources.Load<GameObject>($"Prefabs/Cards/{cardName}");
             if (cardPrefab != null)
             {
@@ -39,13 +40,13 @@ public class CardSpawner : MonoBehaviour
             GameObject cartaAleatoria = Constants.Instance.ListaPrefabsCartas[Random.Range(0, Constants.Instance.ListaPrefabsCartas.Count - 1)];
             GameObject cartaInstanciada = Instantiate(cartaAleatoria, Constants.Instance.posicionesMano[Constants.Instance.mano.Count], Quaternion.identity);
             Constants.Instance.mano.Add(cartaInstanciada);
+            ManoManager.Instance.pasarTurnoManoLlena();
         }
         else
         {
             Debug.LogWarning("No hay cartas cargadas en la lista o la mano está llena.");
         }
     }
-
 
     public void SpawnCardEnemiga()
     {
@@ -82,6 +83,8 @@ public class CardSpawner : MonoBehaviour
             SpawnCardEnemiga();
         }
     }
+
+
 
 
 }

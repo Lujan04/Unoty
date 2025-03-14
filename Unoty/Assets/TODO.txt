@@ -15,30 +15,32 @@ TODO -->
 [?]--> Implementar la clase Deck para gestionar el mazo y las descartadas
 [x]--> Implementar las reglas para descartar cartas (coincidencia de color o número)
 [x]--> Implementar gestión de errores (mensaje si carta no válida)
-
-
--------------------------------------------ENTREGA 4 (Dilluns 3)---------------------------------------------------------
-
 [X]--> Implementar IA básica que juega su turno
-
-[]--> Crear cartas especiales (roba 2, salta turno, cambio de sentido, cambio de color)
-
 [x]--> Implementar el cambio de turnos entre jugador y la IA solo tirar una carta por turno.
-
-[X]--> Reglas para ganar el juego (cuando se quede sin cartas)
-
 [x]--> Refactoring del codigo a archivos independitentes spagueti code duro.
 
+----------------------------------------ENTREGA 5 (Entrega 17 dilluns) -------------------------------------------------------
 
-----------------------------------------ENTREGA 5 (Entrega ???¿¿¿) -------------------------------------------------------
+[]--> Cartas especiales (roba 2(done), cambio de color(comodin, done), //// salta turno, cambio de sentido(salta turno enemigo), )
 
-[]--> Mejorar la interfaz del menú principal
-
-[]--> Crear opciones en el menú del juego para Reiniciar partida y Salir al menú principal
-
-[]--> Mostrar el mazo de descarte, las manos de los jugadores y el turno en la interfaz
+ 
 
 []--> Añadir efectos visuales y sonidos (selección, descarte, victorias)
+
+[x]--> Gestionar que se te llene la mano perder.
+
+[x]--> turno en la interfaz ( montar interfaz mostrar turno dos prefabs gestionados por un boolean  y setActive)
+
+[x]--> Reglas para ganar el juego (cuando se quede sin cartas una de las dos manos) 
+
+[x]--> Mejorar la interfaz del menú principal
+
+[X]--> Crear opciones en el menú del juego para Reiniciar partida y Salir al menú principal
+
+[x]--> Mostrar el mazo de descarte (llista cartes tirades)
+
+[] --> Las manos de los jugadores (pendent multiplayer)
+
 
 
 --------------------------------------------OPCIONAL-----------------------------------------------------------------------
