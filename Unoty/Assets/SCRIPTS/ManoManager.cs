@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using System.Collections;
-using UnityEditor.Rendering;
 using UnityEditor;
 
 
@@ -28,22 +27,22 @@ public class ManoManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Solo permitir robar una carta si aún no se ha robado en este turno
-            if (Constants.Instance.mano.Count < Constants.Instance.posicionesMano.Length)
+            // Solo permitir robar si es el turno del jugador y no ha robado/tirado carta
+            if (!UI_Manager.Instance.isTurnoIA && !Constants.Instance.cartaTiradaTurno)
             {
-                CardSpawner.Instance.SpawnCard();
-
-                
-            }
-            else if (Constants.Instance.mano.Count >= Constants.Instance.posicionesMano.Length)
-            {
-                StartCoroutine(UI_Manager.Instance.warningLimiteCartas());
+                if (Constants.Instance.mano.Count < Constants.Instance.posicionesMano.Length)
+                {
+                    CardSpawner.Instance.DrawCard();
+                }
+                else
+                {
+                    //StartCoroutine(UI_Manager.Instance.warningLimiteCartas());
+                }
             }
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            // Solo permitir tirar una carta si aún no se ha tirado una en este turno
-            if (!Constants.Instance.cartaTiradaTurno)
+            if (!UI_Manager.Instance.isTurnoIA && !Constants.Instance.cartaTiradaTurno)
             {
                 GameManager.Instance.ComprobarCarta();
             }
@@ -91,7 +90,7 @@ public class ManoManager : MonoBehaviour
     }
 
 
-    public IEnumerator pasarTurnoManoLlena()
+    public IEnumerator perderTurnoManoLlena()
     {
 
         if (GameManager.Instance.isWiner) yield break;
@@ -154,7 +153,7 @@ public class ManoManager : MonoBehaviour
         
         if (!GameManager.Instance.isWiner)
         {
-            StartCoroutine(pasarTurnoManoLlena());
+            StartCoroutine(perderTurnoManoLlena());
         }
     }
 }

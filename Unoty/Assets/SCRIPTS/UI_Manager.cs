@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 
 public class UI_Manager : MonoBehaviour
@@ -30,21 +29,41 @@ public class UI_Manager : MonoBehaviour
 
     void Awake() { Instance = this; }
 
-    public IEnumerator warningTirarCarta(float duracion = 1.0f)
+public IEnumerator warningTirarCarta(float duracion = 1.0f)
+{
+    Debug.Log("warningTirarCarta - Inicio");
+    if (TextoExistente)
     {
-        if (TextoExistente == true) yield break;
-
-        TextoExistente = true;
-        GameObject texto = Instantiate(textoPrefabWarningCarta, canvas.transform);
-        RectTransform rt = texto.GetComponent<RectTransform>();
-        rt.anchoredPosition = new Vector2(-110, -90);
-        Destroy(texto, duracion);
-
-        // Wait for 3 seconds before setting TextoExistente to false
-        yield return new WaitForSeconds(2.0f);
-
-        TextoExistente = false;
+        Debug.Log("Warning ya existe");
+        yield break;
     }
+
+    TextoExistente = true;
+    
+    // Instanciar el texto primero
+    GameObject texto = Instantiate(textoPrefabWarningCarta, canvas.transform);
+    RectTransform rt = texto.GetComponent<RectTransform>();
+    rt.anchoredPosition = new Vector2(-110, -90);
+    
+    // Activar el texto
+    texto.SetActive(true);
+    Debug.Log("Warning activado");
+    
+    // Esperar el tiempo especificado
+    yield return new WaitForSeconds(2.0f);
+    
+    Debug.Log("Desactivando warning");
+    // Desactivar en lugar de destruir
+    if (texto != null)
+    {
+        texto.SetActive(false);
+        Destroy(texto);
+    }
+    
+    yield return new WaitForSeconds(0.5f);
+    TextoExistente = false;
+    Debug.Log("warningTirarCarta - Fin");
+}
 
     public IEnumerator warningTurnoIA(float duracion = 1.0f)
     {
@@ -62,21 +81,21 @@ public class UI_Manager : MonoBehaviour
         TextoExistente = false;
     }
 
-    public IEnumerator warningLimiteCartas(float duracion = 1.0f)
-    {
-        if (TextoExistente == true) yield break;
+    // public IEnumerator warningLimiteCartas(float duracion = 1.0f)
+    // {
+    //     if (TextoExistente == true) yield break;
 
-        TextoExistente = true;
-        GameObject texto = Instantiate(textoPrefabLimiteCartas, canvas.transform);
-        RectTransform rt = texto.GetComponent<RectTransform>();
-        rt.anchoredPosition = new Vector2(300, -90);
-        Destroy(texto, duracion);
+    //     TextoExistente = true;
+    //     GameObject texto = Instantiate(textoPrefabLimiteCartas, canvas.transform);
+    //     RectTransform rt = texto.GetComponent<RectTransform>();
+    //     rt.anchoredPosition = new Vector2(300, -90);
+    //     Destroy(texto, duracion);
 
-        // Wait for 3 seconds before setting TextoExistente to false
-        yield return new WaitForSeconds(2.0f);
+    //     // Wait for 3 seconds before setting TextoExistente to false
+    //     yield return new WaitForSeconds(2.0f);
 
-        TextoExistente = false;
-    }
+    //     TextoExistente = false;
+    // }
 
     public IEnumerator VictoriaIA(float duracion = 1.0f)
     {
@@ -129,15 +148,13 @@ public class UI_Manager : MonoBehaviour
                 Quaternion.identity
             );
 
-            // Ajustar escala, rotación y layer
             CartaDescarte.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
             CartaDescarte.transform.rotation = Quaternion.Euler(0, 0, 0);
 
-            // Configurar sortingOrder alto para que estén encima del menú
             SpriteRenderer renderer = CartaDescarte.GetComponent<SpriteRenderer>();
             if (renderer != null)
             {
-                renderer.sortingOrder = 100; // Valor alto para prioridad visual
+                renderer.sortingOrder = 100; 
             }
 
             DescarteMenu.Add(CartaDescarte);

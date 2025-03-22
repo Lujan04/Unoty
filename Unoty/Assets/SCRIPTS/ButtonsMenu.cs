@@ -6,12 +6,13 @@ public class Buttons : MonoBehaviour
 
     public void cargarPartida()
     {
-        Debug.Log("Cargar partida");
+        SceneManager.LoadScene("Game");
+        Debug.Log("Load");
     }
 
     public void nuevaPartida()
     {
-        Debug.Log("Load");
+        Debug.Log("Play");
         SceneManager.LoadScene("Game");
     }
 
